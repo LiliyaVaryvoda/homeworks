@@ -24,7 +24,7 @@
     "mobile": {
       "require": {
         "type": "Appium client",
-        "deviceModel": "RF8N12A9JMA"
+        "deviceModel": "R5CN202N0JF"
       },
       "config": {
         "preconditionMap": false,

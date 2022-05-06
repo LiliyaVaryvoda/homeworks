@@ -39,7 +39,6 @@
       "mask": "intro_5_mask.png"
     }
   },
-
   {
     "type": "image",
     "id": "intro_6",
@@ -48,7 +47,6 @@
       "mask": "intro_6_mask.png"
     }
   },
-
   {
     "type": "image",
     "id": "intro_7",
@@ -57,7 +55,6 @@
       "mask": "intro_7_mask.png"
     }
   },
-
   {
     "type": "image",
     "id": "intro_8",
@@ -66,7 +63,6 @@
       "mask": "intro_8_mask.png"
     }
   },
-
   {
     "type": "image",
     "id": "intro_9",
@@ -75,7 +71,6 @@
       "mask": "intro_9_mask.png"
     }
   },
-
   {
     "type": "image",
     "id": "intro_10",
@@ -83,6 +78,13 @@
       "picture": "intro_10.png",
       "mask": "intro_10_mask.png"
     }
+  },
+  {
+    "type": "image",
+    "id": "intro_11",
+    "data": {
+      "picture": "intro_11.png",
+      "mask": "intro_11_mask.png"
+    }
   }
-
 ]

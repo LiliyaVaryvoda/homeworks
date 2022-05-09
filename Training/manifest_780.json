@@ -1,0 +1,60 @@
+{
+  "title": "Training",
+  "host-objects": {
+    "pump": {
+      "require": {
+        "type": "BLE simulator",
+        "isRealDongle": false,
+        "device": "NGP"
+      },
+      "config": {
+        "role": "central",
+        "serialNumber": "NG0000123X",
+        "reservoirType": "3.0",
+        "modelString": "MMT-1885",
+        "bgUnits": "mg_dL",
+        "lowSuspend": "AHCL_6.7"
+      }
+    },
+    "websim": {
+      "require": {
+        "type": "Web Server Simulator"
+      }
+    },
+    "mobile": {
+      "require": {
+        "type": "Appium client",
+        "deviceModel": "R5CN202N0JF"
+      },
+      "config": {
+        "preconditionMap": false,
+        "simulations": {
+          "BLESimulation": true,
+          "CareLinkSimulation": true
+        },
+        "capabilities": {
+          "app": "PUBLIC:ble_connect-2.0.0-56-220405-fbf6280-bleovertcp.apk",
+          "appActivity": "com.medtronic.minimed.ui.startupwizard.SplashScreenActivity",
+          "appPackage": "com.medtronic.minimed.ngp",
+          "autoLaunch": false,
+          "fullReset": true,
+          "sensor": "ds5j",
+          "takesScreenshot": true,
+          "newCommandTimeout": 2000,
+          "useAppiumForHybrid": true,
+          "enableAppiumBehavior": true
+        }
+      }
+    }
+  },
+  "cases": [
+    {
+      "title": "Training",
+      "scenarioFile": "Training.js",
+      "libraries": {
+        "Mobile Common Lib": "Mobile_CommonLib/manifest.json"
+      },
+      "resources": ["./resources/S20/resources.json"]
+    }
+  ]
+}

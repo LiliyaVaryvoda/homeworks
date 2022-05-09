@@ -86,5 +86,14 @@
       "picture": "intro_11.png",
       "mask": "intro_11_mask.png"
     }
+  },
+
+  {
+    "type": "image",
+    "id": "intro_12",
+    "data": {
+      "picture": "intro_12.png",
+      "mask": "intro_12_mask.png"
+    }
   }
 ]

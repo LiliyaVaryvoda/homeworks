@@ -1,7 +1,25 @@
-//import CareLinkUploadsPage from "./CareLinkUploadsPage"
-//import MinimedMobilePage from "./MinimedMobilePage"
-class MinimedMobilePage{
+class BasePage{
     constructor(mobile){
+        this.mobile = mobile
+    }
+
+    formatMsg(msg){
+        return msg.replace(/\u2060/g, "").replace(/\xa0/g, " ").replace(/%s/, "").replace(/\s+/g, " ").replace(/\&#10;/g, " ").trim()
+    }
+
+    isElementPresent(locator){
+        let element = this.mobile.waitForElement(locator, 10);
+        if (element.isNull()){
+            return false
+        }
+        return true
+    }
+}
+
+
+class MinimedMobilePage extends BasePage{
+    constructor(mobile){
+        super(mobile)
         this.mobile = mobile;
         this.title = "id|com.medtronic.minimed.ngp:id/title";
         this.message = "id|com.medtronic.minimed.ngp:id/intro1_screen_text";
@@ -9,6 +27,9 @@ class MinimedMobilePage{
 
     }
 
+    waitforFullyLoad(){
+        this.mobile.waitForElement(this.title, 10)
+    }
     getExpectedPageData(){
         return{
             title:"MiniMed™ Mobile",
@@ -21,36 +42,33 @@ class MinimedMobilePage{
     getActualPageData(){
         return{
             title:this.mobile.waitForElement(this.title, 10).getAttribute("text"),
-            message:this.mobile.waitForElement(this.message, 10).getAttribute("text"),
+            message:this.formatMsg(this.mobile.waitForElement(this.message, 10).getAttribute("text")),
             btn:this.mobile.waitForElement(this.btn, 10).getAttribute("text")
         }
     }
 
     clickNextBtn(){
         this.mobile.waitForElement(this.btn, 10).click()
+        return new CareLinkUploadsPage(this.mobile)
     }
 }
 
-
-
-//    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-
-
-
-class CareLinkUploadsPage{
+class CareLinkUploadsPage extends BasePage{
     constructor(mobile){
+        super(mobile)
         this.mobile = mobile;
         this.title = "id|com.medtronic.minimed.ngp:id/title";
         this.message = "id|com.medtronic.minimed.ngp:id/intro2_screen_text";
         this.btn = "id|com.medtronic.minimed.ngp:id/intro2_screen_next_button";
-
+        this.toolbar = "id|com.medtronic.minimed.ngp:id/toolbar"
     }
 
     getExpectedPageData(){
         return{
             title:"CareLink™ Uploads",
-            message:"The app automatically sends information to CareLink™ so you do not have to upload your pump on your own." + "\n" + "You can turn this off from the Sync to CareLink™ screen if needed.",
-            btn:"Next"
+            message:this.formatMsg("The app automatically sends information to CareLink™ so you do not have to upload your pump on your own.&#10;You can turn this off from the Sync to CareLink™ screen if needed."),
+            btn:"Next",
+            toolbar:true
         }
     }
 
@@ -58,8 +76,9 @@ class CareLinkUploadsPage{
     getActualPageData(){
         return{
             title:this.mobile.waitForElement(this.title, 10).getAttribute("text"),
-            message:this.mobile.waitForElement(this.message, 10).getAttribute("text"),
-            btn:this.mobile.waitForElement(this.btn, 10).getAttribute("text")
+            message:this.formatMsg(this.mobile.waitForElement(this.message, 10).getAttribute("text")),
+            btn:this.mobile.waitForElement(this.btn, 10).getAttribute("text"),
+            toolbar:this.isElementPresent(this.toolbar)
         }
     }
 
@@ -68,13 +87,9 @@ class CareLinkUploadsPage{
     }
 }
 
-
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-
-class CarePartnerSharingPage{
+class CarePartnerSharingPage extends BasePage{
     constructor(mobile){
+        super(mobile)
         this.mobile = mobile;
         this.title = "id|com.medtronic.minimed.ngp:id/title";
         this.message = "id|com.medtronic.minimed.ngp:id/intro3_screen_text";
@@ -105,32 +120,25 @@ class CarePartnerSharingPage{
 }
 
 
-
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11
-
-
-class SelectCountryPage{
+class SelectCountryPage extends BasePage{
     constructor(mobile){
+        super(mobile)
         this.mobile = mobile;
-        //this.title = "id|com.medtronic.minimed.ngp:id/title";
-        //this.message = "id|com.medtronic.minimed.ngp:id/intro3_screen_text";
+        //this.title = "xpath|//android.widget.TextView[@text = 'Select Country']";
         this.btn = "xpath|//android.widget.Button[@text = 'Log In']";
 
     }
 
     getExpectedPageData(){
         return{
-            //title:"Care Partner Sharing",
-            //message:"Care partners can see pump and sensor information using the CareLink™ Connect app." + "/n" + "/n" + "Go to the Sync to CareLink™ screen to approve care partner requests.",
+            //title:"Select Country",
             btn:"Log In"
         }
     }
 
-
     getActualPageData(){
         return{
             //title:this.mobile.waitForElement(this.title, 10).getAttribute("text"),
-            //message:this.mobile.waitForElement(this.message, 10).getAttribute("text"),
             btn:this.mobile.waitForElement(this.btn, 40).getAttribute("text")
         }
     }
@@ -141,16 +149,10 @@ class SelectCountryPage{
 }
 
 
-
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-
-
-
-class LoginPage{
+class LoginPage extends BasePage{
     constructor(mobile){
+        super(mobile)
         this.mobile = mobile;
-        //this.title = "id|com.medtronic.minimed.ngp:id/title";
-        //this.message = "id|com.medtronic.minimed.ngp:id/intro3_screen_text";
         this.username = "xpath|//android.widget.EditText[@resource-id='username']";
         this.password = "xpath|//android.widget.EditText[@resource-id='password']";
         this.btn = "xpath|//android.widget.Button[@text='Log in']";
@@ -159,18 +161,13 @@ class LoginPage{
 
     getExpectedPageData(){
         return{
-            //title:"Care Partner Sharing",
-            //message:"Care partners can see pump and sensor information using the CareLink™ Connect app." + "/n" + "/n" + "Go to the Sync to CareLink™ screen to approve care partner requests.",
             btn:"Log in"
         }
     }
 
-
     getActualPageData(){
         return{
-            //title:this.mobile.waitForElement(this.title, 10).getAttribute("text"),
-            //message:this.mobile.waitForElement(this.message, 10).getAttribute("text"),
-            btn:this.mobile.waitForElement(this.btn, 10).getAttribute("text")
+            btn:this.mobile.waitForElement(this.btn, 30).getAttribute("text")
         }
     }
 
@@ -186,64 +183,54 @@ class LoginPage{
 
 
 
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-class EndUserLicenceAgreementPage{
+class EndUserLicenceAgreementPage extends BasePage{
     constructor(mobile){
+        super(mobile)
         this.mobile = mobile;
-        //this.title = "id|com.medtronic.minimed.ngp:id/title";
-        //this.message = "id|com.medtronic.minimed.ngp:id/intro3_screen_text";
+        //this.title = "id|test";
         this.btn = "id|com.medtronic.minimed.ngp:id/eula_screen_agree_button";
 
     }
 
     getExpectedPageData(){
         return{
-            //title:"Care Partner Sharing",
-            //message:"Care partners can see pump and sensor information using the CareLink™ Connect app." + "/n" + "/n" + "Go to the Sync to CareLink™ screen to approve care partner requests.",
+            //title:"END USER LICENSE AGREEMENT FOR United Kingdom",
             btn:"Agree"
         }
     }
 
-
     getActualPageData(){
         return{
-            //title:this.mobile.waitForElement(this.title, 10).getAttribute("text"),
-            //message:this.mobile.waitForElement(this.message, 10).getAttribute("text"),
-            btn:this.mobile.waitForElement(this.btn, 10).getAttribute("text")
+            //title:this.mobile.waitForElement(this.title, 30).getAttribute("text"),
+            btn:this.mobile.waitForElement(this.btn, 30).getAttribute("text")
         }
     }
 
     clickAgreeBtn(){
-        this.mobile.waitForElement(this.btn, 10).click()
+        this.mobile.waitForElement(this.btn, 30).click()
     }
 }
 
 
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111111
 
-
-class TermsAndConditionaPopup{
+class TermsAndConditionsPopup extends BasePage{
     constructor(mobile){
+        super(mobile)
         this.mobile = mobile;
-        //this.title = "id|com.medtronic.minimed.ngp:id/title";
-        //this.message = "id|com.medtronic.minimed.ngp:id/intro3_screen_text";
+        this.message = "id|android:id/message";
         this.btn = "id|android:id/button1";
     }
 
     getExpectedPageData(){
         return{
-            //title:"Care Partner Sharing",
-            //message:"Care partners can see pump and sensor information using the CareLink™ Connect app." + "/n" + "/n" + "Go to the Sync to CareLink™ screen to approve care partner requests.",
+            message:"I agree to the terms and conditions." + "\n" + "\n" + "By accepting, you authorize your personal and health data to be transmitted and shared wirelessly with those individuals you designate in the Software.",
             btn:"AGREE"
         }
     }
 
-
     getActualPageData(){
         return{
-            //title:this.mobile.waitForElement(this.title, 10).getAttribute("text"),
-            //message:this.mobile.waitForElement(this.message, 10).getAttribute("text"),
+            message:this.mobile.waitForElement(this.message, 10).getAttribute("text"),
             btn:this.mobile.waitForElement(this.btn, 10).getAttribute("text")
         }
     }
@@ -254,30 +241,27 @@ class TermsAndConditionaPopup{
 }
 
 
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-class GetStartedPumpPage{
+class GetStartedPumpPage extends BasePage{
     constructor(mobile){
+        super(mobile)
         this.mobile = mobile;
-        //this.title = "id|com.medtronic.minimed.ngp:id/title";
-        //this.message = "id|com.medtronic.minimed.ngp:id/intro3_screen_text";
+        this.title = "id|com.medtronic.minimed.ngp:id/title";
+        this.message = "id|com.medtronic.minimed.ngp:id/getting_started_screen_text";
         this.btn = "id|com.medtronic.minimed.ngp:id/getting_started_screen_get_started_button";
     }
 
     getExpectedPageData(){
         return{
-            //title:"Care Partner Sharing",
-            //message:"Care partners can see pump and sensor information using the CareLink™ Connect app." + "/n" + "/n" + "Go to the Sync to CareLink™ screen to approve care partner requests.",
+            title:"MiniMed™ Mobile",
+            message:"Before you get started, make sure:",
             btn:"Get started"
         }
     }
 
-
     getActualPageData(){
         return{
-            //title:this.mobile.waitForElement(this.title, 10).getAttribute("text"),
-            //message:this.mobile.waitForElement(this.message, 10).getAttribute("text"),
+            title:this.mobile.waitForElement(this.title, 10).getAttribute("text"),
+            message:this.mobile.waitForElement(this.message, 10).getAttribute("text"),
             btn:this.mobile.waitForElement(this.btn, 10).getAttribute("text")
         }
     }
@@ -287,29 +271,29 @@ class GetStartedPumpPage{
     }
 }
 
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11
 
-class PumpCompitabilityPage{
+
+class PumpCompitabilityPage extends BasePage{
     constructor(mobile){
+        super(mobile)
         this.mobile = mobile;
-        //this.title = "id|com.medtronic.minimed.ngp:id/title";
-        //this.message = "id|com.medtronic.minimed.ngp:id/intro3_screen_text";
+        this.message1 = "id|com.medtronic.minimed.ngp:id/do_you_see_this_text";
+        this.message2 = "id|com.medtronic.minimed.ngp:id/pair_pump_compatibility_screen_text";
         this.btn = "id|com.medtronic.minimed.ngp:id/pair_pump_compatibility_screen_has_symbol_button";
     }
 
     getExpectedPageData(){
         return{
-            //title:"Care Partner Sharing",
-            //message:"Care partners can see pump and sensor information using the CareLink™ Connect app." + "/n" + "/n" + "Go to the Sync to CareLink™ screen to approve care partner requests.",
+            message1:"Do you see this symbol?",
+            message2:"To make sure your pump is compatible, look for the symbol shown above on the front of the pump.",
             btn:"Yes, my pump has this symbol"
         }
     }
 
-
     getActualPageData(){
         return{
-            //title:this.mobile.waitForElement(this.title, 10).getAttribute("text"),
-            //message:this.mobile.waitForElement(this.message, 10).getAttribute("text"),
+            message1:this.mobile.waitForElement(this.message1, 10).getAttribute("text"),
+            message2:this.mobile.waitForElement(this.message2, 10).getAttribute("text"),
             btn:this.mobile.waitForElement(this.btn, 10).getAttribute("text")
         }
     }
@@ -320,29 +304,25 @@ class PumpCompitabilityPage{
 }
 
 
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-
-class PumpSelectionPage{
+class PumpSelectionPage extends BasePage{
     constructor(mobile){
+        super(mobile)
         this.mobile = mobile;
-        //this.title = "id|com.medtronic.minimed.ngp:id/title";
-        //this.message = "id|com.medtronic.minimed.ngp:id/intro3_screen_text";
+        this.message = "id|com.medtronic.minimed.ngp:id/select_pump_type_screen_select_pump_text";
         this.btn = "id|com.medtronic.minimed.ngp:id/select_pump_type_screen_ahcl_pump_button";
+        this.btn2 = "id|com.medtronic.minimed.ngp:id/select_pump_type_screen_pre_ahcl_pump_button"
     }
 
     getExpectedPageData(){
         return{
-            //title:"Care Partner Sharing",
-            //message:"Care partners can see pump and sensor information using the CareLink™ Connect app." + "/n" + "/n" + "Go to the Sync to CareLink™ screen to approve care partner requests.",
+            message:"Which pump do you have?",
             btn:"Select"
         }
     }
 
-
     getActualPageData(){
         return{
-            //title:this.mobile.waitForElement(this.title, 10).getAttribute("text"),
-            //message:this.mobile.waitForElement(this.message, 10).getAttribute("text"),
+            message:this.mobile.waitForElement(this.message, 10).getAttribute("text"),
             btn:this.mobile.waitForElement(this.btn, 10).getAttribute("text")
         }
     }
@@ -350,39 +330,101 @@ class PumpSelectionPage{
     clickSelectBtn(){
         this.mobile.waitForElement(this.btn, 10).click()
     }
+
+    clickSelectBtn2(){
+        this.mobile.waitForElement(this.btn2,10).click()
+    }
 }
 
-const minimedMobilePage = new MinimedMobilePage(mobile)
-const careLinkUploadsPage = new CareLinkUploadsPage(mobile)
-const carePartnerSharingPage = new CarePartnerSharingPage(mobile)
-const selectSountryPage = new SelectCountryPage(mobile)
-const loginpage = new LoginPage(mobile)
-const endUserLicenceAgreementPage = new EndUserLicenceAgreementPage(mobile)
-const termsAndConditionaPopup = new TermsAndConditionaPopup(mobile)
-const getStartedPumpPage = new GetStartedPumpPage(mobile)
+
+
+class PumpConnectionFromPhone extends BasePage{
+    constructor(mobile){
+        super(mobile)
+        this.mobile = mobile;
+        this.title = "id|com.medtronic.minimed.ngp:id/title";
+        this.diagnosticLogs = "id|com.medtronic.minimed.ngp:id/pair_pump_screen_diagnostic_logs_button";
+    }
+
+    getExpectedPageData(){
+        return{
+            title:"MiniMed™ Mobile",
+            diagnosticLogs:"Diagnostic Logs"
+        }
+    }
+
+    getActualPageData(){
+        return{
+            title:this.mobile.waitForElement(this.title, 10).getAttribute("text"),
+            diagnosticLogs:this.mobile.waitForElement(this.diagnosticLogs, 10).getAttribute("text")
+        }
+    }
+
+    clickDiagnosticLogs(){
+        this.mobile.waitForElement(this.diagnosticLogs, 10).click()
+    }
+}
+
+
+const minimedMobilePage = new MinimedMobilePage(mobile);
+const careLinkUploadsPage = new CareLinkUploadsPage(mobile);
+const carePartnerSharingPage = new CarePartnerSharingPage(mobile);
+const selectSountryPage = new SelectCountryPage(mobile);
+const loginpage = new LoginPage(mobile);
+const endUserLicenceAgreementPage = new EndUserLicenceAgreementPage(mobile);
+const termsAndConditionsPopup = new TermsAndConditionsPopup(mobile);
+const getStartedPumpPage = new GetStartedPumpPage(mobile);
 const pumpCompitabilityPage = new PumpCompitabilityPage(mobile)
 const pumpSelectionPage = new PumpSelectionPage(mobile)
-
-const okButton = "id|com.medtronic.minimed.ngp:id/app_notification_button"
-
-//const agreePopup = "id|android:id/button1"
-//const getStartedPump = "id|com.medtronic.minimed.ngp:id/getting_started_screen_get_started_button"
-//const pumpCompitabilityYes = "id|com.medtronic.minimed.ngp:id/pair_pump_compatibility_screen_has_symbol_button"
-
+const pumpConnectionFromPhone = new PumpConnectionFromPhone(mobile)
 const deviceResource = resources;
 
-Step('Start application', function(){
-    mobile.launchApp()
-});
+const whiteListEndPoint = "/api/connect/v2/client/config/blengp/android/whitelist"
+let logs;
 
+Step('Start application', function(){
+    websim.StartCapturing()
+    mobile.launchApp()
+    minimedMobilePage.waitforFullyLoad()
+    websim.StopCapturing()
+    logs = websim.GetCapturedLogs()
+    logs.SaveToFile("Scenario 1")
+});
 
 // Step for motorola phone
 // Step('Launch app', function(){
 //     mobile.waitForElement(okButton, 10).click()
 // });
 
-
 //  MinimedMmobile page
+
+
+Verify('Verify that white list request was sent to correct endpoint', {
+    actual: logs.records[0].Url,
+    expected: whiteListEndPoint
+});
+
+Verify('Verify that responce from server was received', {
+    actual: logs.records[1].StatusCode,
+    expected: 200
+});
+
+Verify('Verify that whitelist contains [appVersion] fields with correct data', {
+    actual: logs.records[1].Data[0].appVersion,
+    expected: [
+        "2.0.*",
+        "1.3.*",
+        "1.2.*",
+        "1.1.*",
+        "1.0.*",
+        "0.9.*"
+    ]
+});
+
+Verify('Verify that whitelist contains blacklist', {
+    actual: logs.records[1].Data[0].hasOwnProperty("BLACKLIST"),
+    expected: true
+});
 
 mobile.wait(5)
 
@@ -402,7 +444,7 @@ Step('Click Next button on Minimed Mobile page and navigate to CareLink Uploads 
 
 // Carelink Uploads page
 
-Verify('Verify that Carelink Uploads page is the same as in requirements', {
+Verify('Verify that Carelink Uploads screen is the same as in requirements', {
     actual: mobile.takeScreenshot(),
     expected: deviceResource.intro_2
 });
@@ -412,8 +454,7 @@ Verify('Verify CareLink Uploads screen is displayed with correct elements and te
     expected: careLinkUploadsPage.getExpectedPageData()
 });
 
-
-Step('Click Next button on Carelink Uploads page', function(){
+Step('Click Next button on Carelink Uploads page and navigate to CarePartner Sharing page', function(){
     careLinkUploadsPage.clickNextBtn()
 });
 
@@ -429,7 +470,9 @@ Verify('Verify CarePartner Sharing screen is displayed with correct elements and
     expected: carePartnerSharingPage.getExpectedPageData()
 });
 
-Step('Click Next button on CarePartner Sharing page', function(){
+mobile.takeScreenshot().SaveToFile("D:/Carepartner!!!!!.png")
+
+Step('Click Next button on CarePartner Sharing page and navigate to Select Country page', function(){
     carePartnerSharingPage.clickNextBtn()
 });
 
@@ -453,6 +496,7 @@ Step('Click Log in button on Select Country page', function(){
     selectSountryPage.clickLogInBtn()
 });
 
+
 // CareLink Login page
 
 mobile.wait(10)
@@ -461,6 +505,7 @@ Verify('Verify that CareLink Login page is the same as in requirements', {
     actual: mobile.takeScreenshot(),
     expected: deviceResource.intro_5
 });
+
 
 Verify('Verify Login screen is displayed with correct elements and text', {
     actual: loginpage.getActualPageData(),
@@ -471,7 +516,7 @@ Step('Enter Login info on CareLink Login page', function(){
     loginpage.enterLogInfo()
 });
 
-mobile.wait(10)
+mobile.wait(20)
 
 Step('Click Log in on CareLink Login page', function(){
     loginpage.clickLogInBtn()
@@ -492,7 +537,7 @@ Verify('Verify End User Licence Agreement screen is displayed with correct eleme
     expected: endUserLicenceAgreementPage.getExpectedPageData()
 });
 
-Step('Click Agree button on End User Licence Agreement page', function(){
+Step('Click Agree option on End User Licence Agreement page', function(){
     endUserLicenceAgreementPage.clickAgreeBtn()
 });
 
@@ -505,18 +550,18 @@ Verify('Verify that Agree Terms and Conditions pop-up is the same as in requirem
 });
 
 Verify('Verify Agree Terms and Conditions pop-up is displayed with correct elements and text', {
-    actual: termsAndConditionaPopup.getActualPageData(),
-    expected: termsAndConditionaPopup.getExpectedPageData()
+    actual: termsAndConditionsPopup.getActualPageData(),
+    expected: termsAndConditionsPopup.getExpectedPageData()
 });
 
-Step('Click Agree on Agree Terms and Conditions pop-up', function(){
-    termsAndConditionaPopup.clickAgreeBtn()
+Step('Click Agree option on Agree Terms and Conditions pop-up', function(){
+    termsAndConditionsPopup.clickAgreeBtn()
 });
 
 
 // Getting started pump page
 
-Verify('Verify that Getting started pump page is the same as in requirements', {
+Verify('Verify that Getting started pump screen is the same as in requirements', {
     actual: mobile.takeScreenshot(),
     expected: deviceResource.intro_8
 });
@@ -531,9 +576,9 @@ Step('Click Get started button', function(){
 });
 
 
-// Pump compitability page
+// Pump Compitability page
 
-Verify('Verify that Pump compitability page is the same as in requirements', {
+Verify('Verify that Pump compitability screen is the same as in requirements', {
     actual: mobile.takeScreenshot(),
     expected: deviceResource.intro_9
 });
@@ -548,9 +593,9 @@ Step('Click on confirmation of compitability', function(){
     pumpCompitabilityPage.clickYesBtn()
 });
 
-// Pump selection page
+// Pump Selection page
 
-Verify('Verify that Pump selection page is the same as in requirements', {
+Verify('Verify that Pump selection screen is the same as in requirements', {
     actual: mobile.takeScreenshot(),
     expected: deviceResource.intro_10
 });
@@ -561,15 +606,34 @@ Verify('Verify Pump Selection screen is displayed with correct elements and text
     expected: pumpSelectionPage.getExpectedPageData()
 });
 
-Step('Click on Select pump', function(){
+Step('Click on Select pump option', function(){
     pumpSelectionPage.clickSelectBtn()
 });
 
 mobile.wait(20)
 
-// Pump connection from phone
+// Pump Connection from phone
 
-Verify('Verify that  page is the same as in requirements', {
+Verify('Verify that Pump connection from phone screen is the same as in requirements', {
     actual: mobile.takeScreenshot(),
     expected: deviceResource.intro_11
 });
+
+Verify('Verify Pump Connection from phone screen is displayed with correct elements and text', {
+    actual: pumpConnectionFromPhone.getActualPageData(),
+    expected: pumpConnectionFromPhone.getExpectedPageData()
+});
+
+
+Step('Click on Diagnostic logs on Pump Connection from phone screen', function(){
+    pumpConnectionFromPhone.clickDiagnosticLogs()
+});
+
+// Diagnostic logs page
+
+
+Verify('Verify that Diagnostic logs screen is the same as in requirements', {
+    actual: mobile.takeScreenshot(),
+    expected: deviceResource.intro_12
+});
+

@@ -52,7 +52,8 @@
       "title": "Training",
       "scenarioFile": "Training.js",
       "libraries": {
-        "Mobile Common Lib": "Mobile_CommonLib/manifest.json"
+        "Mobile Common Lib": "Mobile_CommonLib/manifest.json",
+        "test lib":"lib/pageObject.js"
       },
       "resources": ["./resources/S20/resources.json"]
     }

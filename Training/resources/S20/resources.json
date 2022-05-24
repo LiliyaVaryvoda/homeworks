@@ -1,99 +1,117 @@
 [
   {
     "type": "image",
-    "id": "intro_1",
+    "id": "minimedMobilePage",
     "data": {
-      "picture": "intro_1.png",
-      "mask": "intro_1_mask.png"
+      "picture": "minimedMobilePage.png",
+      "mask": "minimedMobilePage_mask.png"
     }
   },
   {
     "type": "image",
-    "id": "intro_2",
+    "id": "careLinkUploadsPage",
     "data": {
-      "picture": "intro_2.png",
-      "mask": "intro_1_mask.png"
+      "picture": "careLinkUploadsPage.png",
+      "mask": "careLinkUploadsPage_mask.png"
     }
   },
   {
     "type": "image",
-    "id": "intro_3",
+    "id": "carePartnerSharingPage",
     "data": {
-      "picture": "intro_3.png",
-      "mask": "intro_3_mask.png"
+      "picture": "carePartnerSharingPage.png",
+      "mask": "carePartnerSharingPage_mask.png"
     }
   },
   {
     "type": "image",
-    "id": "intro_4",
+    "id": "selectSountryPage",
     "data": {
-      "picture": "intro_4.png",
-      "mask": "intro_4_mask.png"
+      "picture": "selectSountryPage.png",
+      "mask": "selectSountryPage_mask.png"
     }
   },
   {
     "type": "image",
-    "id": "intro_5",
+    "id": "loginpage",
     "data": {
-      "picture": "intro_5.png",
-      "mask": "intro_5_mask.png"
+      "picture": "loginpage.png",
+      "mask": "loginpage_mask.png"
     }
   },
   {
     "type": "image",
-    "id": "intro_6",
+    "id": "endUserLicenceAgreementPage",
     "data": {
-      "picture": "intro_6.png",
-      "mask": "intro_6_mask.png"
+      "picture": "endUserLicenceAgreementPage.png",
+      "mask": "endUserLicenceAgreementPage_mask.png"
     }
   },
   {
     "type": "image",
-    "id": "intro_7",
+    "id": "termsAndConditionsPopup",
     "data": {
-      "picture": "intro_7.png",
-      "mask": "intro_7_mask.png"
+      "picture": "termsAndConditionsPopup.png",
+      "mask": "termsAndConditionsPopup_mask.png"
     }
   },
   {
     "type": "image",
-    "id": "intro_8",
+    "id": "getStartedPumpPage",
     "data": {
-      "picture": "intro_8.png",
-      "mask": "intro_8_mask.png"
+      "picture": "getStartedPumpPage.png",
+      "mask": "getStartedPumpPage_mask.png"
     }
   },
   {
     "type": "image",
-    "id": "intro_9",
+    "id": "pumpCompitabilityPage",
     "data": {
-      "picture": "intro_9.png",
-      "mask": "intro_9_mask.png"
+      "picture": "pumpCompitabilityPage.png",
+      "mask": "pumpCompitabilityPage_mask.png"
     }
   },
   {
     "type": "image",
-    "id": "intro_10",
+    "id": "pumpSelectionPage",
     "data": {
-      "picture": "intro_10.png",
-      "mask": "intro_10_mask.png"
+      "picture": "pumpSelectionPage.png",
+      "mask": "pumpSelectionPage_mask.png"
     }
   },
   {
     "type": "image",
-    "id": "intro_11",
+    "id": "pumpConnectionFromPhone",
     "data": {
-      "picture": "intro_11.png",
-      "mask": "intro_11_mask.png"
+      "picture": "pumpConnectionFromPhone.png",
+      "mask": "pumpConnectionFromPhone_mask.png"
     }
   },
 
   {
     "type": "image",
-    "id": "intro_12",
+    "id": "diagnosticLogs",
     "data": {
-      "picture": "intro_12.png",
-      "mask": "intro_12_mask.png"
+      "picture": "diagnosticLogs.png",
+      "mask": "diagnosticLogs_mask.png"
+    }
+  },
+
+  {
+    "type": "image",
+    "id": "autoUploadLogs",
+    "data": {
+      "picture": "autoUploadLogs.png",
+      "mask": "autoUploadLogs_mask.png"
+    }
+  },
+
+  {
+    "type": "image",
+    "id": "autoUploadLogsSwitched",
+    "data": {
+      "picture": "autoUploadLogsSwitched.png",
+      "mask": "autoUploadLogsSwitched_mask.png"
     }
   }
 ]
